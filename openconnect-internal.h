@@ -273,6 +273,8 @@ struct openconnect_info {
 	struct sockaddr *peer_addr;
 	struct sockaddr *dtls_addr;
 
+	int dtls_bind_port;
+
 	int deflate;
 	char *useragent;
 
