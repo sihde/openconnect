@@ -496,6 +496,7 @@ int connect_dtls_socket(struct openconnect_info *vpninfo)
 		struct sockaddr_storage dtls_bind_addr;
 		int dtls_bind_addrlen;
 		memset(&dtls_bind_addr, 0, sizeof(dtls_bind_addr));
+
 		if (vpninfo->peer_addr->sa_family == AF_INET) {
 			struct sockaddr_in *addr = (struct sockaddr_in *)&dtls_bind_addr;
 			dtls_bind_addrlen = sizeof(*addr);
@@ -515,6 +516,7 @@ int connect_dtls_socket(struct openconnect_info *vpninfo)
 			vpninfo->dtls_attempt_period = 0;
 			return -EINVAL;
 		}
+
 		if (bind(dtls_fd, (struct sockaddr *)&dtls_bind_addr, dtls_bind_addrlen)) {
 			perror(_("Bind UDP socket for DTLS"));
 			return -EINVAL;
