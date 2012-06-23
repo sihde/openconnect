@@ -107,7 +107,7 @@ enum {
 	OPT_SERVERCERT,
 	OPT_USERAGENT,
 	OPT_NON_INTER,
-	OPT_DTLS_BIND_PORT,
+	OPT_DTLS_SOURCE_PORT,
 };
 
 #ifdef __sun__
@@ -170,7 +170,7 @@ static struct option long_options[] = {
 	OPTION("no-cert-check", 0, OPT_NO_CERT_CHECK),
 	OPTION("force-dpd", 1, OPT_FORCE_DPD),
 	OPTION("non-inter", 0, OPT_NON_INTER),
-	OPTION("dtls-bind-port", 1, OPT_DTLS_BIND_PORT),
+	OPTION("dtls-source-port", 1, OPT_DTLS_SOURCE_PORT),
 	OPTION(NULL, 0, 0)
 };
 
@@ -275,7 +275,7 @@ static void usage(void)
 	printf("      --reconnect-timeout         %s\n", _("Connection retry timeout in seconds"));
 	printf("      --servercert=FINGERPRINT    %s\n", _("Server's certificate SHA1 fingerprint"));
 	printf("      --useragent=STRING          %s\n", _("HTTP header User-Agent: field"));
-	printf("      --dtls-bind-port=PORT       %s\n", _("Bind UDP source port for DTLS"));
+	printf("      --dtls-source-port=PORT     %s\n", _("Set source port for DTLS datagrams"));
 	printf("\n");
 
 	helpmessage();
@@ -470,7 +470,7 @@ int main(int argc, char **argv)
 	vpninfo->cert_expire_warning = 60 * 86400;
 	vpninfo->vpnc_script = DEFAULT_VPNCSCRIPT;
 	vpninfo->cancel_fd = -1;
-	vpninfo->dtls_bind_port = -1;
+	vpninfo->dtls_source_port = -1;
 
 	if (!uname(&utsbuf))
 		vpninfo->localname = utsbuf.nodename;
@@ -688,8 +688,8 @@ int main(int argc, char **argv)
 		case OPT_FORCE_DPD:
 			vpninfo->dtls_times.dpd = vpninfo->ssl_times.dpd = atoi(config_arg);
 			break;
-		case OPT_DTLS_BIND_PORT:
-			vpninfo->dtls_bind_port = atoi(config_arg);
+		case OPT_DTLS_SOURCE_PORT:
+			vpninfo->dtls_source_port = atoi(config_arg);
 			break;
 		default:
 			usage();
