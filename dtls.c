@@ -492,7 +492,7 @@ int connect_dtls_socket(struct openconnect_info *vpninfo)
 		return -EINVAL;
 	}
 
-	if (vpninfo->dtls_source_port >= 0) {
+	if (vpninfo->dtls_local_port >= 0) {
 		struct sockaddr_storage dtls_bind_addr;
 		int dtls_bind_addrlen;
 		memset(&dtls_bind_addr, 0, sizeof(dtls_bind_addr));
@@ -502,13 +502,13 @@ int connect_dtls_socket(struct openconnect_info *vpninfo)
 			dtls_bind_addrlen = sizeof(*addr);
 			addr->sin_family = AF_INET;
 			addr->sin_addr.s_addr = INADDR_ANY;
-			addr->sin_port = htons(vpninfo->dtls_source_port);
+			addr->sin_port = htons(vpninfo->dtls_local_port);
 		} else if (vpninfo->peer_addr->sa_family == AF_INET6) {
 			struct sockaddr_in6 *addr = (struct sockaddr_in6 *)&dtls_bind_addr;
 			dtls_bind_addrlen = sizeof(*addr);
 			addr->sin6_family = AF_INET6;
 			addr->sin6_addr = in6addr_any;
-			addr->sin6_port = htons(vpninfo->dtls_source_port);
+			addr->sin6_port = htons(vpninfo->dtls_local_port);
 		} else {
 			vpn_progress(vpninfo, PRG_ERR,
 				     _("Unknown protocol family %d. Cannot do DTLS\n"),
